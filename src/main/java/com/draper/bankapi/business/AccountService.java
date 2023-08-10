@@ -1,7 +1,7 @@
 package com.draper.bankapi.business;
 
-import com.draper.bankapi.data.AccountRepository;
-import com.draper.bankapi.model.Account;
+import com.draper.bankapi.data.account.AccountRepository;
+import com.draper.bankapi.data.account.Account;
 import org.springframework.stereotype.Service;
 
 @Service

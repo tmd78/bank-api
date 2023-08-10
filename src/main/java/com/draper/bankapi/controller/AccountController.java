@@ -1,7 +1,7 @@
 package com.draper.bankapi.controller;
 
 import com.draper.bankapi.business.AccountService;
-import com.draper.bankapi.model.Account;
+import com.draper.bankapi.data.account.Account;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

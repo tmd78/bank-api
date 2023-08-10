@@ -1,6 +1,11 @@
-package com.draper.bankapi.model;
+package com.draper.bankapi.data.account;
 
+/**
+ * A data layer model. Represents the {@code account} table.
+ */
 public class Account {
+    public static final String READ_BY_ID = "select * from account where id = :id";
+
     private int id;
     private int balance;
     private String passcode;
