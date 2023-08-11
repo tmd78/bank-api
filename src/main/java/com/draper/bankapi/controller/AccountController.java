@@ -1,10 +1,9 @@
 package com.draper.bankapi.controller;
 
 import com.draper.bankapi.business.AccountService;
+import com.draper.bankapi.business.ValidateOpenNewAccountRequest;
 import com.draper.bankapi.data.account.Account;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -15,8 +14,10 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public Account openNewAccount() {
-        return accountService.openNewAccount();
+    @PostMapping
+    public Account openNewAccount(@RequestBody OpenNewAccountRequest openNewAccountRequest) {
+        ValidateOpenNewAccountRequest.perform(openNewAccountRequest);
+
+        return accountService.openNewAccount(openNewAccountRequest);
     }
 }

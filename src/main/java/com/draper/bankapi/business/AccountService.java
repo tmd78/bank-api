@@ -1,5 +1,6 @@
 package com.draper.bankapi.business;
 
+import com.draper.bankapi.controller.OpenNewAccountRequest;
 import com.draper.bankapi.data.account.AccountRepository;
 import com.draper.bankapi.data.account.Account;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,10 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public Account openNewAccount() {
-        // Build a new Account object.
+    public Account openNewAccount(OpenNewAccountRequest openNewAccountRequest) {
         Account account = new Account();
         account.setBalance(0);
-        // TODO: Accept passcode from caller and verify the passcode.
-        account.setPasscode("0000");
+        account.setPasscode(openNewAccountRequest.getPasscode());
 
         return accountRepository.createAccount(account);
     }
