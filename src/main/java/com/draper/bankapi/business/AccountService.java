@@ -1,6 +1,6 @@
 package com.draper.bankapi.business;
 
-import com.draper.bankapi.controller.OpenNewAccountRequest;
+import com.draper.bankapi.controller.account.OpenNewAccountRequest;
 import com.draper.bankapi.data.account.AccountRepository;
 import com.draper.bankapi.data.account.Account;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,8 @@
-package com.draper.bankapi.controller;
+package com.draper.bankapi.controller.account;
 
 import com.draper.bankapi.business.AccountService;
 import com.draper.bankapi.business.ValidateOpenNewAccountRequest;
+import com.draper.bankapi.business.ValidateTransactionRequest;
 import com.draper.bankapi.data.account.Account;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,5 +20,13 @@ public class AccountController {
         ValidateOpenNewAccountRequest.perform(openNewAccountRequest);
 
         return accountService.openNewAccount(openNewAccountRequest);
+    }
+
+    @PutMapping(path = "/{accountId}")
+    public Account transact(@PathVariable Integer accountId, @RequestBody TransactionRequest transactionRequest) {
+        ValidateTransactionRequest.perform(transactionRequest);
+
+        // TODO: Use service to carry out transaction.
+        return new Account();
     }
 }
