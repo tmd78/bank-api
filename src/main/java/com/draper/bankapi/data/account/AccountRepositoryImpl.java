@@ -20,11 +20,11 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public Account createAccount(Account account) {
+    public Account createAccount(int balance, String passcode) {
         MapSqlParameterSource insertValues = new MapSqlParameterSource();
         insertValues
-                .addValue("balance", account.getBalance())
-                .addValue("passcode", account.getPasscode());
+                .addValue("balance", balance)
+                .addValue("passcode", passcode);
 
         int newAccountId = simpleJdbcInsert.executeAndReturnKey(insertValues).intValue();
 
@@ -43,5 +43,16 @@ public class AccountRepositoryImpl implements AccountRepository {
         );
 
         return account;
+    }
+
+    @Override
+    public Account updateAccountBalance(int id, int newBalance) {
+        MapSqlParameterSource queryArguments = new MapSqlParameterSource();
+        queryArguments.addValue("balance", newBalance);
+        queryArguments.addValue("id", id);
+
+        namedParameterJdbcTemplate.update(Account.UPDATE_BALANCE, queryArguments);
+
+        return readAccount(id);
     }
 }

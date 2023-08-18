@@ -1,5 +1,5 @@
 package com.draper.bankapi.common;
 
-public enum Action {
+public enum TransactionAction {
     DEPOSIT, WITHDRAW
 }

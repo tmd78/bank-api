@@ -1,6 +1,6 @@
 package com.draper.bankapi.business;
 
-import com.draper.bankapi.common.Action;
+import com.draper.bankapi.common.TransactionAction;
 import com.draper.bankapi.common.BankApiBadRequestException;
 import com.draper.bankapi.common.Constants;
 import com.draper.bankapi.controller.account.TransactionRequest;
@@ -23,7 +23,7 @@ public abstract class ValidateTransactionRequest {
         }
 
         try {
-            Action.valueOf(request.getAction().toUpperCase());
+            TransactionAction.valueOf(request.getAction().toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new BankApiBadRequestException("action must be 'deposit' or 'withdraw' (case insensitive)");
         }

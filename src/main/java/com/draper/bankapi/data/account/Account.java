@@ -5,6 +5,7 @@ package com.draper.bankapi.data.account;
  */
 public class Account {
     public static final String READ_BY_ID = "select * from account where id = :id";
+    public static final String UPDATE_BALANCE = "update account set balance = :balance where id = :id";
 
     private int id;
     private int balance;

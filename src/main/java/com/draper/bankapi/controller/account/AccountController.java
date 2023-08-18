@@ -3,6 +3,8 @@ package com.draper.bankapi.controller.account;
 import com.draper.bankapi.business.AccountService;
 import com.draper.bankapi.business.ValidateOpenNewAccountRequest;
 import com.draper.bankapi.business.ValidateTransactionRequest;
+import com.draper.bankapi.common.TransactionAction;
+import com.draper.bankapi.common.BankApiBadRequestException;
 import com.draper.bankapi.data.account.Account;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +25,26 @@ public class AccountController {
     }
 
     @PutMapping(path = "/{accountId}")
-    public Account transact(@PathVariable Integer accountId, @RequestBody TransactionRequest transactionRequest) {
+    public TransactionResponse transact(
+            @PathVariable int accountId,
+            @RequestBody TransactionRequest transactionRequest
+    ) {
         ValidateTransactionRequest.perform(transactionRequest);
 
-        // TODO: Use service to carry out transaction.
-        return new Account();
+        TransactionAction transactionAction = TransactionAction.valueOf(transactionRequest.getAction().toUpperCase());
+        TransactionResponse transactionResponse;
+
+        switch (transactionAction) {
+            case DEPOSIT:
+                transactionResponse = null;
+                break;
+            case WITHDRAW:
+                transactionResponse = accountService.withdrawFromAccount(accountId, transactionRequest.getAmount());
+                break;
+            default:
+                throw new BankApiBadRequestException(String.format("unrecognized action %s", transactionAction));
+        }
+
+        return transactionResponse;
     }
 }
