@@ -25,10 +25,7 @@ public class AccountController {
     }
 
     @PutMapping(path = "/{accountId}")
-    public TransactionResponse transact(
-            @PathVariable int accountId,
-            @RequestBody TransactionRequest transactionRequest
-    ) {
+    public TransactionResponse transact(@PathVariable int accountId, @RequestBody TransactionRequest transactionRequest) {
         ValidateTransactionRequest.perform(transactionRequest);
 
         TransactionAction transactionAction = TransactionAction.valueOf(transactionRequest.getAction().toUpperCase());
