@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public abstract class ValidateOpenNewAccountRequest {
     private ValidateOpenNewAccountRequest() throws Exception {
-        String message = String.format("%s should not be instantiated", ValidateOpenNewAccountRequest.class.getName());
+        String message = String.format(Constants.MSG_DO_NOT_INSTANTIATE, ValidateOpenNewAccountRequest.class.getName());
         throw new Exception(message);
     }
 

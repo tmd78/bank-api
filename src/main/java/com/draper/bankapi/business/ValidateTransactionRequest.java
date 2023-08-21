@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public abstract class ValidateTransactionRequest {
     private ValidateTransactionRequest() throws Exception {
-        String message = String.format("%s should not be instantiated", ValidateTransactionRequest.class.getName());
+        String message = String.format(Constants.MSG_DO_NOT_INSTANTIATE, ValidateTransactionRequest.class.getName());
         throw new Exception(message);
     }
 

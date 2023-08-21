@@ -7,4 +7,5 @@ public abstract class Constants {
     }
 
     public static final String MSG_MISSING_JSON_VALUE = "%s must be provided";
+    public static final String MSG_DO_NOT_INSTANTIATE = "%s should not be instantiated";
 }
