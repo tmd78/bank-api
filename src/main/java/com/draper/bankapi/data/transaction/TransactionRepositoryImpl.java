@@ -1,6 +1,7 @@
 package com.draper.bankapi.data.transaction;
 
 import com.draper.bankapi.common.TransactionAction;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -16,18 +17,34 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("transaction")
-                .usingGeneratedKeyColumns("id");
+                .usingGeneratedKeyColumns(Transaction.COLUMN_ID);
     }
 
     @Override
-    public Transaction createTransaction(int accountId, TransactionAction action, int amount, String memo, boolean isSuccessful) {
-        // TODO: Implement.
-        return null;
+    public Transaction createTransaction(int accountId, TransactionAction action, int amount, String memo) {
+        MapSqlParameterSource insertValues = new MapSqlParameterSource();
+        insertValues
+                .addValue(Transaction.COLUMN_ACCOUNT_ID, accountId)
+                .addValue(Transaction.COLUMN_ACTION, action.name())
+                .addValue(Transaction.COLUMN_AMOUNT, amount)
+                .addValue(Transaction.COLUMN_MEMO, memo);
+
+        int newTransactionId = simpleJdbcInsert.executeAndReturnKey(insertValues).intValue();
+
+        return readTransaction(newTransactionId);
     }
 
     @Override
     public Transaction readTransaction(int id) {
-        // TODO: Implement.
-        return null;
+        MapSqlParameterSource queryArguments = new MapSqlParameterSource();
+        queryArguments.addValue(Transaction.COLUMN_ID, id);
+
+        Transaction transaction = namedParameterJdbcTemplate.queryForObject(
+                Transaction.READ_BY_ID,
+                queryArguments,
+                new TransactionRowMapper()
+        );
+
+        return transaction;
     }
 }

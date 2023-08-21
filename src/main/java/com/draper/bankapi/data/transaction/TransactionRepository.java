@@ -6,14 +6,13 @@ public interface TransactionRepository {
     /**
      * Create a record in the {@code transaction} table.
      *
-     * @param accountId    the ID of the modified account
-     * @param action       the action performed on the account
-     * @param amount       the amount of the action
-     * @param memo         a description <b>(optional)</b>
-     * @param isSuccessful indicates if the transaction was successful
+     * @param accountId the ID of the modified account
+     * @param action    the action performed on the account
+     * @param amount    the amount of the action
+     * @param memo      a description <b>(optional)</b>
      * @return the newly created transaction
      */
-    Transaction createTransaction(int accountId, TransactionAction action, int amount, String memo, boolean isSuccessful);
+    Transaction createTransaction(int accountId, TransactionAction action, int amount, String memo);
 
     /**
      * Read a record from the {@code transaction} table by ID.

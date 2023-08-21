@@ -1,18 +1,23 @@
 package com.draper.bankapi.business;
 
 import com.draper.bankapi.common.BankApiConflictException;
+import com.draper.bankapi.common.TransactionAction;
 import com.draper.bankapi.controller.account.OpenNewAccountRequest;
 import com.draper.bankapi.controller.account.TransactionResponse;
 import com.draper.bankapi.data.account.AccountRepository;
 import com.draper.bankapi.data.account.Account;
+import com.draper.bankapi.data.transaction.Transaction;
+import com.draper.bankapi.data.transaction.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final TransactionRepository transactionRepository;
 
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository, TransactionRepository transactionRepository) {
         this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     public Account openNewAccount(OpenNewAccountRequest openNewAccountRequest) {
@@ -39,9 +44,17 @@ public class AccountService {
 
         Account accountAltered = accountRepository.updateAccountBalance(accountId, newBalance);
 
+        Transaction transaction = transactionRepository.createTransaction(
+                accountId,
+                TransactionAction.WITHDRAW,
+                withdrawAmount,
+                null
+        );
+
         TransactionResponse transactionResponse = new TransactionResponse();
         transactionResponse.setAccountId(accountAltered.getId());
         transactionResponse.setBalance(accountAltered.getBalance());
+        transactionResponse.setTransactionId(transaction.getId());
 
         return transactionResponse;
     }
