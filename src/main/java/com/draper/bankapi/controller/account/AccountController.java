@@ -39,7 +39,7 @@ public class AccountController {
                 transactionResponse = accountService.withdrawFromAccount(accountId, transactionRequest.getAmount());
                 break;
             default:
-                throw new BankApiBadRequestException(String.format("unrecognized action %s", transactionAction));
+                throw new BankApiBadRequestException(String.format("%s is not a recognized action", transactionAction));
         }
 
         return transactionResponse;

@@ -13,6 +13,11 @@ public abstract class ValidateTransactionRequest {
         throw new Exception(message);
     }
 
+    /**
+     * Ensure all values expected of a request are present.
+     *
+     * @param request the request to validate
+     */
     public static void perform(TransactionRequest request) {
         if (request == null) {
             throw new BankApiBadRequestException(String.format(Constants.MSG_MISSING_JSON_VALUE, "body"));
@@ -33,7 +38,7 @@ public abstract class ValidateTransactionRequest {
         }
 
         if (request.getAmount() < 1) {
-            throw new BankApiBadRequestException("amount must be a positive number (amount > 0)");
+            throw new BankApiBadRequestException("amount must be greater than zero");
         }
 
         if (request.getPasscode() == null) {

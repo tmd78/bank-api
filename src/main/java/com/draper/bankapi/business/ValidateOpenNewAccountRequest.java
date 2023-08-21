@@ -12,6 +12,11 @@ public abstract class ValidateOpenNewAccountRequest {
         throw new Exception(message);
     }
 
+    /**
+     * Ensure all values expected of a request are present.
+     *
+     * @param request the request to validate
+     */
     public static void perform(OpenNewAccountRequest request) {
         if (request == null) {
             throw new BankApiBadRequestException(String.format(Constants.MSG_MISSING_JSON_VALUE, "body"));

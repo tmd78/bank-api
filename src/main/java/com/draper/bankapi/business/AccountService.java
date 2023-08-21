@@ -19,6 +19,13 @@ public class AccountService {
         return accountRepository.createAccount(0, openNewAccountRequest.getPasscode());
     }
 
+    /**
+     * Withdraw the requested amount from the specified account.
+     *
+     * @param accountId      the ID of the account to withdraw from
+     * @param withdrawAmount the amount to withdraw
+     * @return the resulting balance
+     */
     public TransactionResponse withdrawFromAccount(int accountId, int withdrawAmount) {
         Account accountUnaltered = accountRepository.readAccount(accountId);
 
@@ -26,7 +33,7 @@ public class AccountService {
         int newBalance = oldBalance - withdrawAmount;
 
         if (newBalance < 0) {
-            String message = String.format("balance ($%d) is insufficient for requested withdraw amount", oldBalance);
+            String message = String.format("balance ($%d) is too low for requested withdraw amount", oldBalance);
             throw new BankApiConflictException(message);
         }
 
