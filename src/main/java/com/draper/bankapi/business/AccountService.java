@@ -25,17 +25,46 @@ public class AccountService {
     }
 
     /**
-     * Withdraw the requested amount from the specified account.
+     * Deposit into the specified account.
      *
-     * @param accountId      the ID of the account to withdraw from
-     * @param withdrawAmount the amount to withdraw
+     * @param accountId the ID of the account to deposit into
+     * @param amount    the amount to deposit
      * @return the resulting balance
      */
-    public TransactionResponse withdrawFromAccount(int accountId, int withdrawAmount) {
+    public TransactionResponse depositIntoAccount(int accountId, int amount) {
         Account accountUnaltered = accountRepository.readAccount(accountId);
 
         int oldBalance = accountUnaltered.getBalance();
-        int newBalance = oldBalance - withdrawAmount;
+        int newBalance = oldBalance + amount;
+
+        Account accountAltered = accountRepository.updateAccountBalance(accountId, newBalance);
+
+        Transaction transaction = transactionRepository.createTransaction(
+                accountId,
+                TransactionAction.DEPOSIT,
+                amount
+        );
+
+        TransactionResponse transactionResponse = new TransactionResponse();
+        transactionResponse.setAccountId(accountAltered.getId());
+        transactionResponse.setBalance(accountAltered.getBalance());
+        transactionResponse.setTransactionId(transaction.getId());
+
+        return transactionResponse;
+    }
+
+    /**
+     * Withdraw from the specified account.
+     *
+     * @param accountId the ID of the account to withdraw from
+     * @param amount    the amount to withdraw
+     * @return the resulting balance
+     */
+    public TransactionResponse withdrawFromAccount(int accountId, int amount) {
+        Account accountUnaltered = accountRepository.readAccount(accountId);
+
+        int oldBalance = accountUnaltered.getBalance();
+        int newBalance = oldBalance - amount;
 
         if (newBalance < 0) {
             String message = String.format("balance ($%d) is too low for requested withdraw amount", oldBalance);
@@ -47,7 +76,7 @@ public class AccountService {
         Transaction transaction = transactionRepository.createTransaction(
                 accountId,
                 TransactionAction.WITHDRAW,
-                withdrawAmount
+                amount
         );
 
         TransactionResponse transactionResponse = new TransactionResponse();

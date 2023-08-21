@@ -33,7 +33,7 @@ public class AccountController {
 
         switch (transactionAction) {
             case DEPOSIT:
-                transactionResponse = null;
+                transactionResponse = accountService.depositIntoAccount(accountId, transactionRequest.getAmount());
                 break;
             case WITHDRAW:
                 transactionResponse = accountService.withdrawFromAccount(accountId, transactionRequest.getAmount());
