@@ -14,7 +14,6 @@ public class TransactionRowMapper implements RowMapper<Transaction> {
         transaction.setAccountId(rs.getInt(Transaction.COLUMN_ACCOUNT_ID));
         transaction.setAction(TransactionAction.valueOf(rs.getString(Transaction.COLUMN_ACTION).toUpperCase()));
         transaction.setAmount(rs.getInt(Transaction.COLUMN_AMOUNT));
-        transaction.setMemo(rs.getString(Transaction.COLUMN_AMOUNT));
 
         return transaction;
     }

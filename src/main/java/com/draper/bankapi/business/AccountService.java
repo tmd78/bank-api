@@ -47,8 +47,7 @@ public class AccountService {
         Transaction transaction = transactionRepository.createTransaction(
                 accountId,
                 TransactionAction.WITHDRAW,
-                withdrawAmount,
-                null
+                withdrawAmount
         );
 
         TransactionResponse transactionResponse = new TransactionResponse();

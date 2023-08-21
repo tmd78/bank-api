@@ -9,10 +9,9 @@ public interface TransactionRepository {
      * @param accountId the ID of the modified account
      * @param action    the action performed on the account
      * @param amount    the amount of the action
-     * @param memo      a description <b>(optional)</b>
      * @return the newly created transaction
      */
-    Transaction createTransaction(int accountId, TransactionAction action, int amount, String memo);
+    Transaction createTransaction(int accountId, TransactionAction action, int amount);
 
     /**
      * Read a record from the {@code transaction} table by ID.

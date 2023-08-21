@@ -21,13 +21,12 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
-    public Transaction createTransaction(int accountId, TransactionAction action, int amount, String memo) {
+    public Transaction createTransaction(int accountId, TransactionAction action, int amount) {
         MapSqlParameterSource insertValues = new MapSqlParameterSource();
         insertValues
                 .addValue(Transaction.COLUMN_ACCOUNT_ID, accountId)
                 .addValue(Transaction.COLUMN_ACTION, action.name())
-                .addValue(Transaction.COLUMN_AMOUNT, amount)
-                .addValue(Transaction.COLUMN_MEMO, memo);
+                .addValue(Transaction.COLUMN_AMOUNT, amount);
 
         int newTransactionId = simpleJdbcInsert.executeAndReturnKey(insertValues).intValue();
 
