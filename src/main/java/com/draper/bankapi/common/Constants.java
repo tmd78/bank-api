@@ -2,7 +2,7 @@ package com.draper.bankapi.common;
 
 public abstract class Constants {
     private Constants() throws Exception {
-        String message = String.format("%s should not be instantiated", Constants.class.getName());
+        String message = String.format(MSG_DO_NOT_INSTANTIATE, Constants.class.getName());
         throw new Exception(message);
     }
 

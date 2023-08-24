@@ -1,7 +1,7 @@
 package com.draper.bankapi.business;
 
 import com.draper.bankapi.common.Constants;
-import com.draper.bankapi.controller.account.OpenNewAccountRequest;
+import com.draper.bankapi.controller.account.request.OpenNewAccountRequest;
 import com.draper.bankapi.common.BankApiBadRequestException;
 
 import java.util.regex.Pattern;

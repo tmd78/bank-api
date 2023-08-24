@@ -1,4 +1,4 @@
-package com.draper.bankapi.controller.account;
+package com.draper.bankapi.controller.account.request;
 
 public class OpenNewAccountRequest {
     private String passcode;

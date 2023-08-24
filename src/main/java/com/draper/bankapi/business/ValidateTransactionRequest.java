@@ -3,7 +3,7 @@ package com.draper.bankapi.business;
 import com.draper.bankapi.common.TransactionAction;
 import com.draper.bankapi.common.BankApiBadRequestException;
 import com.draper.bankapi.common.Constants;
-import com.draper.bankapi.controller.account.TransactionRequest;
+import com.draper.bankapi.controller.account.request.TransactionRequest;
 
 import java.util.regex.Pattern;
 

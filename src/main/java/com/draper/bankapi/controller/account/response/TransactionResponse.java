@@ -1,4 +1,4 @@
-package com.draper.bankapi.controller.account;
+package com.draper.bankapi.controller.account.response;
 
 /**
  * Response sent to the client after a successful account update.

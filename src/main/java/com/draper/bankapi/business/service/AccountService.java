@@ -1,9 +1,9 @@
-package com.draper.bankapi.business;
+package com.draper.bankapi.business.service;
 
 import com.draper.bankapi.common.BankApiConflictException;
 import com.draper.bankapi.common.TransactionAction;
-import com.draper.bankapi.controller.account.OpenNewAccountRequest;
-import com.draper.bankapi.controller.account.TransactionResponse;
+import com.draper.bankapi.controller.account.request.OpenNewAccountRequest;
+import com.draper.bankapi.controller.account.response.TransactionResponse;
 import com.draper.bankapi.data.account.AccountRepository;
 import com.draper.bankapi.data.account.Account;
 import com.draper.bankapi.data.transaction.Transaction;
