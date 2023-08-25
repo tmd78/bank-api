@@ -4,6 +4,9 @@ package com.draper.bankapi.data.account;
  * A data layer model. Represents the {@code account} table.
  */
 public class Account {
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_BALANCE = "balance";
+    public static final String COLUMN_PASSCODE = "passcode";
     public static final String READ_BY_ID = "select * from account where id = :id";
     public static final String UPDATE_BALANCE = "update account set balance = :balance where id = :id";
 

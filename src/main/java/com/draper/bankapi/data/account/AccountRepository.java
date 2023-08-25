@@ -23,7 +23,7 @@ public interface AccountRepository {
      *
      * @param id         the ID of the account to update
      * @param newBalance the new balance
-     * @return the modified account
+     * @return the number of accounts modified
      */
-    Account updateAccountBalance(int id, int newBalance);
+    int updateAccountBalance(int id, int newBalance);
 }

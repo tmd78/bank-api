@@ -29,15 +29,15 @@ public class AccountService {
      *
      * @param accountId the ID of the account to deposit into
      * @param amount    the amount to deposit
-     * @return the resulting balance
+     * @return the result of the transaction
      */
     public TransactionResponse depositIntoAccount(int accountId, int amount) {
-        Account accountUnaltered = accountRepository.readAccount(accountId);
+        Account account = accountRepository.readAccount(accountId);
 
-        int oldBalance = accountUnaltered.getBalance();
+        int oldBalance = account.getBalance();
         int newBalance = oldBalance + amount;
 
-        Account accountAltered = accountRepository.updateAccountBalance(accountId, newBalance);
+        accountRepository.updateAccountBalance(accountId, newBalance);
 
         Transaction transaction = transactionRepository.createTransaction(
                 accountId,
@@ -46,8 +46,8 @@ public class AccountService {
         );
 
         TransactionResponse transactionResponse = new TransactionResponse();
-        transactionResponse.setAccountId(accountAltered.getId());
-        transactionResponse.setBalance(accountAltered.getBalance());
+        transactionResponse.setAccountId(accountId);
+        transactionResponse.setBalance(newBalance);
         transactionResponse.setTransactionId(transaction.getId());
 
         return transactionResponse;
@@ -58,12 +58,12 @@ public class AccountService {
      *
      * @param accountId the ID of the account to withdraw from
      * @param amount    the amount to withdraw
-     * @return the resulting balance
+     * @return the result of the transaction
      */
     public TransactionResponse withdrawFromAccount(int accountId, int amount) {
-        Account accountUnaltered = accountRepository.readAccount(accountId);
+        Account account = accountRepository.readAccount(accountId);
 
-        int oldBalance = accountUnaltered.getBalance();
+        int oldBalance = account.getBalance();
         int newBalance = oldBalance - amount;
 
         if (newBalance < 0) {
@@ -71,7 +71,7 @@ public class AccountService {
             throw new BankApiConflictException(message);
         }
 
-        Account accountAltered = accountRepository.updateAccountBalance(accountId, newBalance);
+        accountRepository.updateAccountBalance(accountId, newBalance);
 
         Transaction transaction = transactionRepository.createTransaction(
                 accountId,
@@ -80,8 +80,8 @@ public class AccountService {
         );
 
         TransactionResponse transactionResponse = new TransactionResponse();
-        transactionResponse.setAccountId(accountAltered.getId());
-        transactionResponse.setBalance(accountAltered.getBalance());
+        transactionResponse.setAccountId(accountId);
+        transactionResponse.setBalance(newBalance);
         transactionResponse.setTransactionId(transaction.getId());
 
         return transactionResponse;

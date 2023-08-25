@@ -18,15 +18,15 @@ public class AccountRepositoryImpl implements AccountRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("account")
-                .usingGeneratedKeyColumns("id");
+                .usingGeneratedKeyColumns(Account.COLUMN_ID);
     }
 
     @Override
     public Account createAccount(int balance, String passcode) {
         MapSqlParameterSource insertValues = new MapSqlParameterSource();
         insertValues
-                .addValue("balance", balance)
-                .addValue("passcode", passcode);
+                .addValue(Account.COLUMN_BALANCE, balance)
+                .addValue(Account.COLUMN_PASSCODE, passcode);
 
         int newAccountId = simpleJdbcInsert.executeAndReturnKey(insertValues).intValue();
 
@@ -38,7 +38,7 @@ public class AccountRepositoryImpl implements AccountRepository {
         Account account;
 
         MapSqlParameterSource queryArguments = new MapSqlParameterSource();
-        queryArguments.addValue("id", id);
+        queryArguments.addValue(Account.COLUMN_ID, id);
 
         try {
             account = namedParameterJdbcTemplate.queryForObject(
@@ -54,13 +54,11 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public Account updateAccountBalance(int id, int newBalance) {
+    public int updateAccountBalance(int id, int newBalance) {
         MapSqlParameterSource queryArguments = new MapSqlParameterSource();
-        queryArguments.addValue("balance", newBalance);
-        queryArguments.addValue("id", id);
+        queryArguments.addValue(Account.COLUMN_ID, id);
+        queryArguments.addValue(Account.COLUMN_BALANCE, newBalance);
 
-        namedParameterJdbcTemplate.update(Account.UPDATE_BALANCE, queryArguments);
-
-        return readAccount(id);
+        return namedParameterJdbcTemplate.update(Account.UPDATE_BALANCE, queryArguments);
     }
 }
