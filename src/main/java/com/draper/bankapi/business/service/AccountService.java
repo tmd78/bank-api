@@ -3,6 +3,7 @@ package com.draper.bankapi.business.service;
 import com.draper.bankapi.common.BankApiConflictException;
 import com.draper.bankapi.common.TransactionType;
 import com.draper.bankapi.controller.account.request.CreateAccountRequest;
+import com.draper.bankapi.controller.account.response.ReadAccountResponse;
 import com.draper.bankapi.controller.account.response.UpdateAccountBalanceResponse;
 import com.draper.bankapi.data.account.AccountRepository;
 import com.draper.bankapi.data.account.Account;
@@ -36,8 +37,14 @@ public class AccountService {
      * @param accountId the ID of the account to read
      * @return the requested account
      */
-    public Account readAccount(int accountId) {
-        return accountRepository.readAccount(accountId);
+    public ReadAccountResponse readAccount(int accountId) {
+        Account account = accountRepository.readAccount(accountId);
+
+        ReadAccountResponse response = new ReadAccountResponse();
+        response.setId(account.getId());
+        response.setBalance(account.getBalance());
+
+        return response;
     }
 
     /**
