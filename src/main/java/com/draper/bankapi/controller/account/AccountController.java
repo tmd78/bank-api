@@ -1,13 +1,13 @@
 package com.draper.bankapi.controller.account;
 
 import com.draper.bankapi.business.service.AccountService;
-import com.draper.bankapi.business.ValidateOpenNewAccountRequest;
-import com.draper.bankapi.business.ValidateTransactionRequest;
-import com.draper.bankapi.common.TransactionAction;
+import com.draper.bankapi.business.ValidateCreateAccountRequest;
+import com.draper.bankapi.business.ValidateUpdateAccountBalanceRequest;
+import com.draper.bankapi.common.TransactionType;
 import com.draper.bankapi.common.BankApiBadRequestException;
-import com.draper.bankapi.controller.account.request.OpenNewAccountRequest;
-import com.draper.bankapi.controller.account.request.TransactionRequest;
-import com.draper.bankapi.controller.account.response.TransactionResponse;
+import com.draper.bankapi.controller.account.request.CreateAccountRequest;
+import com.draper.bankapi.controller.account.request.UpdateAccountBalanceRequest;
+import com.draper.bankapi.controller.account.response.UpdateAccountBalanceResponse;
 import com.draper.bankapi.data.account.Account;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,30 +21,39 @@ public class AccountController {
     }
 
     @PostMapping
-    public Account openNewAccount(@RequestBody OpenNewAccountRequest openNewAccountRequest) {
-        ValidateOpenNewAccountRequest.perform(openNewAccountRequest);
+    public Account createAccount(@RequestBody CreateAccountRequest createAccountRequest) {
+        ValidateCreateAccountRequest.perform(createAccountRequest);
 
-        return accountService.openNewAccount(openNewAccountRequest);
+        return accountService.createAccount(createAccountRequest);
+    }
+
+    @GetMapping(path = "/{accountId}")
+    public Account readAccount(@PathVariable int accountId) {
+        return accountService.readAccount(accountId);
     }
 
     @PutMapping(path = "/{accountId}")
-    public TransactionResponse transact(@PathVariable int accountId, @RequestBody TransactionRequest transactionRequest) {
-        ValidateTransactionRequest.perform(transactionRequest);
+    public UpdateAccountBalanceResponse updateAccountBalance(
+            @PathVariable int accountId,
+            @RequestBody UpdateAccountBalanceRequest updateAccountBalanceRequest
+    ) {
 
-        TransactionAction transactionAction = TransactionAction.valueOf(transactionRequest.getAction().toUpperCase());
-        TransactionResponse transactionResponse;
+        ValidateUpdateAccountBalanceRequest.perform(updateAccountBalanceRequest);
 
-        switch (transactionAction) {
+        TransactionType transactionType = TransactionType.valueOf(updateAccountBalanceRequest.getAction().toUpperCase());
+        UpdateAccountBalanceResponse updateAccountBalanceResponse;
+
+        switch (transactionType) {
             case DEPOSIT:
-                transactionResponse = accountService.depositIntoAccount(accountId, transactionRequest.getAmount());
+                updateAccountBalanceResponse = accountService.depositIntoAccount(accountId, updateAccountBalanceRequest.getAmount());
                 break;
             case WITHDRAW:
-                transactionResponse = accountService.withdrawFromAccount(accountId, transactionRequest.getAmount());
+                updateAccountBalanceResponse = accountService.withdrawFromAccount(accountId, updateAccountBalanceRequest.getAmount());
                 break;
             default:
-                throw new BankApiBadRequestException(String.format("%s is not a recognized action", transactionAction));
+                throw new BankApiBadRequestException(String.format("%s is not a recognized action", transactionType));
         }
 
-        return transactionResponse;
+        return updateAccountBalanceResponse;
     }
 }

@@ -1,6 +1,6 @@
 package com.draper.bankapi.data.transaction;
 
-import com.draper.bankapi.common.TransactionAction;
+import com.draper.bankapi.common.TransactionType;
 
 public interface TransactionRepository {
     /**
@@ -11,7 +11,7 @@ public interface TransactionRepository {
      * @param amount    the amount of the action
      * @return the newly created transaction
      */
-    Transaction createTransaction(int accountId, TransactionAction action, int amount);
+    Transaction createTransaction(int accountId, TransactionType action, int amount);
 
     /**
      * Read a record from the {@code transaction} table by ID.

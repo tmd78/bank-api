@@ -1,6 +1,6 @@
 package com.draper.bankapi.data.transaction;
 
-import com.draper.bankapi.common.TransactionAction;
+import com.draper.bankapi.common.TransactionType;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -21,7 +21,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
-    public Transaction createTransaction(int accountId, TransactionAction action, int amount) {
+    public Transaction createTransaction(int accountId, TransactionType action, int amount) {
         MapSqlParameterSource insertValues = new MapSqlParameterSource();
         insertValues
                 .addValue(Transaction.COLUMN_ACCOUNT_ID, accountId)

@@ -1,6 +1,6 @@
 package com.draper.bankapi.data.transaction;
 
-import com.draper.bankapi.common.TransactionAction;
+import com.draper.bankapi.common.TransactionType;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ public class TransactionRowMapper implements RowMapper<Transaction> {
         Transaction transaction = new Transaction();
         transaction.setId(rs.getInt(Transaction.COLUMN_ID));
         transaction.setAccountId(rs.getInt(Transaction.COLUMN_ACCOUNT_ID));
-        transaction.setAction(TransactionAction.valueOf(rs.getString(Transaction.COLUMN_ACTION).toUpperCase()));
+        transaction.setAction(TransactionType.valueOf(rs.getString(Transaction.COLUMN_ACTION).toUpperCase()));
         transaction.setAmount(rs.getInt(Transaction.COLUMN_AMOUNT));
 
         return transaction;

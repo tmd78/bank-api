@@ -1,6 +1,6 @@
 package com.draper.bankapi.controller.account.request;
 
-public class TransactionRequest {
+public class UpdateAccountBalanceRequest {
     private String action;
     private Integer amount;
     private String passcode;

@@ -1,15 +1,15 @@
 package com.draper.bankapi.business;
 
-import com.draper.bankapi.common.TransactionAction;
+import com.draper.bankapi.common.TransactionType;
 import com.draper.bankapi.common.BankApiBadRequestException;
 import com.draper.bankapi.common.Constants;
-import com.draper.bankapi.controller.account.request.TransactionRequest;
+import com.draper.bankapi.controller.account.request.UpdateAccountBalanceRequest;
 
 import java.util.regex.Pattern;
 
-public abstract class ValidateTransactionRequest {
-    private ValidateTransactionRequest() throws Exception {
-        String message = String.format(Constants.MSG_DO_NOT_INSTANTIATE, ValidateTransactionRequest.class.getName());
+public abstract class ValidateUpdateAccountBalanceRequest {
+    private ValidateUpdateAccountBalanceRequest() throws Exception {
+        String message = String.format(Constants.MSG_DO_NOT_INSTANTIATE, ValidateUpdateAccountBalanceRequest.class.getName());
         throw new Exception(message);
     }
 
@@ -18,7 +18,7 @@ public abstract class ValidateTransactionRequest {
      *
      * @param request the request to validate
      */
-    public static void perform(TransactionRequest request) {
+    public static void perform(UpdateAccountBalanceRequest request) {
         if (request == null) {
             throw new BankApiBadRequestException(String.format(Constants.MSG_MISSING_JSON_VALUE, "body"));
         }
@@ -28,7 +28,7 @@ public abstract class ValidateTransactionRequest {
         }
 
         try {
-            TransactionAction.valueOf(request.getAction().toUpperCase());
+            TransactionType.valueOf(request.getAction().toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new BankApiBadRequestException("action must be 'deposit' or 'withdraw' (case insensitive)");
         }

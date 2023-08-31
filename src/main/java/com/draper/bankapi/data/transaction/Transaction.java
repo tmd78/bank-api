@@ -1,6 +1,6 @@
 package com.draper.bankapi.data.transaction;
 
-import com.draper.bankapi.common.TransactionAction;
+import com.draper.bankapi.common.TransactionType;
 
 /**
  * A data layer model. Represents the {@code transaction} table.
@@ -14,7 +14,7 @@ public class Transaction {
 
     private int id;
     private int accountId;
-    private TransactionAction action;
+    private TransactionType action;
     private int amount;
 
     public int getId() {
@@ -33,11 +33,11 @@ public class Transaction {
         this.accountId = accountId;
     }
 
-    public TransactionAction getAction() {
+    public TransactionType getAction() {
         return action;
     }
 
-    public void setAction(TransactionAction action) {
+    public void setAction(TransactionType action) {
         this.action = action;
     }
 

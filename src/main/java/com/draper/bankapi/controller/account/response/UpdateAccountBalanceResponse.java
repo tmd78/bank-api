@@ -3,7 +3,7 @@ package com.draper.bankapi.controller.account.response;
 /**
  * Response sent to the client after a successful account update.
  */
-public class TransactionResponse {
+public class UpdateAccountBalanceResponse {
     private int accountId;
     private int balance;
     private int transactionId;

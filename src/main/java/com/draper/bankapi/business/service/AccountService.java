@@ -1,9 +1,9 @@
 package com.draper.bankapi.business.service;
 
 import com.draper.bankapi.common.BankApiConflictException;
-import com.draper.bankapi.common.TransactionAction;
-import com.draper.bankapi.controller.account.request.OpenNewAccountRequest;
-import com.draper.bankapi.controller.account.response.TransactionResponse;
+import com.draper.bankapi.common.TransactionType;
+import com.draper.bankapi.controller.account.request.CreateAccountRequest;
+import com.draper.bankapi.controller.account.response.UpdateAccountBalanceResponse;
 import com.draper.bankapi.data.account.AccountRepository;
 import com.draper.bankapi.data.account.Account;
 import com.draper.bankapi.data.transaction.Transaction;
@@ -20,8 +20,24 @@ public class AccountService {
         this.transactionRepository = transactionRepository;
     }
 
-    public Account openNewAccount(OpenNewAccountRequest openNewAccountRequest) {
-        return accountRepository.createAccount(0, openNewAccountRequest.getPasscode());
+    /**
+     * Create an account using the provided information.
+     *
+     * @param createAccountRequest the information needed to create account
+     * @return the created account
+     */
+    public Account createAccount(CreateAccountRequest createAccountRequest) {
+        return accountRepository.createAccount(0, createAccountRequest.getPasscode());
+    }
+
+    /**
+     * Read the account with the specified ID.
+     *
+     * @param accountId the ID of the account to read
+     * @return the requested account
+     */
+    public Account readAccount(int accountId) {
+        return accountRepository.readAccount(accountId);
     }
 
     /**
@@ -31,7 +47,7 @@ public class AccountService {
      * @param amount    the amount to deposit
      * @return the result of the transaction
      */
-    public TransactionResponse depositIntoAccount(int accountId, int amount) {
+    public UpdateAccountBalanceResponse depositIntoAccount(int accountId, int amount) {
         Account account = accountRepository.readAccount(accountId);
 
         int oldBalance = account.getBalance();
@@ -41,16 +57,16 @@ public class AccountService {
 
         Transaction transaction = transactionRepository.createTransaction(
                 accountId,
-                TransactionAction.DEPOSIT,
+                TransactionType.DEPOSIT,
                 amount
         );
 
-        TransactionResponse transactionResponse = new TransactionResponse();
-        transactionResponse.setAccountId(accountId);
-        transactionResponse.setBalance(newBalance);
-        transactionResponse.setTransactionId(transaction.getId());
+        UpdateAccountBalanceResponse updateAccountBalanceResponse = new UpdateAccountBalanceResponse();
+        updateAccountBalanceResponse.setAccountId(accountId);
+        updateAccountBalanceResponse.setBalance(newBalance);
+        updateAccountBalanceResponse.setTransactionId(transaction.getId());
 
-        return transactionResponse;
+        return updateAccountBalanceResponse;
     }
 
     /**
@@ -60,7 +76,7 @@ public class AccountService {
      * @param amount    the amount to withdraw
      * @return the result of the transaction
      */
-    public TransactionResponse withdrawFromAccount(int accountId, int amount) {
+    public UpdateAccountBalanceResponse withdrawFromAccount(int accountId, int amount) {
         Account account = accountRepository.readAccount(accountId);
 
         int oldBalance = account.getBalance();
@@ -75,15 +91,15 @@ public class AccountService {
 
         Transaction transaction = transactionRepository.createTransaction(
                 accountId,
-                TransactionAction.WITHDRAW,
+                TransactionType.WITHDRAW,
                 amount
         );
 
-        TransactionResponse transactionResponse = new TransactionResponse();
-        transactionResponse.setAccountId(accountId);
-        transactionResponse.setBalance(newBalance);
-        transactionResponse.setTransactionId(transaction.getId());
+        UpdateAccountBalanceResponse updateAccountBalanceResponse = new UpdateAccountBalanceResponse();
+        updateAccountBalanceResponse.setAccountId(accountId);
+        updateAccountBalanceResponse.setBalance(newBalance);
+        updateAccountBalanceResponse.setTransactionId(transaction.getId());
 
-        return transactionResponse;
+        return updateAccountBalanceResponse;
     }
 }
