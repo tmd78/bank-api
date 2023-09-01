@@ -1,0 +1,21 @@
+{
+	"id": "23d99fdf-ec9d-4c30-9740-2f5b37e34d33",
+	"name": "bank-api",
+	"values": [
+		{
+			"key": "account_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "domain",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-09-01T01:44:41.457Z",
+	"_postman_exported_using": "Postman/10.17.5"
+}
