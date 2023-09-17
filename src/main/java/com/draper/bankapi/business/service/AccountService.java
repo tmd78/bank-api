@@ -11,6 +11,9 @@ import com.draper.bankapi.data.transaction.Transaction;
 import com.draper.bankapi.data.transaction.TransactionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
@@ -108,5 +111,16 @@ public class AccountService {
         updateAccountBalanceResponse.setTransactionId(transaction.getId());
 
         return updateAccountBalanceResponse;
+    }
+
+    /**
+     * Delete the specified accounts.
+     *
+     * @param accountIds the IDs of the accounts to delete
+     * @return the number of accounts deleted
+     */
+    public long deleteAccounts(List<Integer> accountIds) {
+        int[] results = accountRepository.deleteAccounts(accountIds);
+        return Arrays.stream(results).filter(x -> x > 0).count();
     }
 }

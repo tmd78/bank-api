@@ -151,6 +151,69 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Produce message",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "body",
+							"value": "{\"accountIds\":[2,3,4,5]}",
+							"type": "text"
+						},
+						{
+							"key": "_type",
+							"value": "com.draper.bankapi.message.DeleteAccountsRequest",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8161/api/message/:queue-name?type=queue",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8161",
+					"path": [
+						"api",
+						"message",
+						":queue-name"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "queue"
+						}
+					],
+					"variable": [
+						{
+							"key": "queue-name",
+							"value": "delete.accounts"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

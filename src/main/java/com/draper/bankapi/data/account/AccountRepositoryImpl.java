@@ -4,10 +4,13 @@ import com.draper.bankapi.common.BankApiNotFoundException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository("accountRepository")
 public class AccountRepositoryImpl implements AccountRepository {
@@ -60,5 +63,18 @@ public class AccountRepositoryImpl implements AccountRepository {
         queryArguments.addValue(Account.COLUMN_BALANCE, newBalance);
 
         return namedParameterJdbcTemplate.update(Account.UPDATE_BALANCE, queryArguments);
+    }
+
+    @Override
+    public int[] deleteAccounts(List<Integer> ids) {
+        List<SqlParameterSource> batchArgs = new ArrayList<>();
+
+        for (Integer id : ids) {
+            MapSqlParameterSource batchArg = new MapSqlParameterSource();
+            batchArg.addValue(Account.COLUMN_ID, id);
+            batchArgs.add(batchArg);
+        }
+
+        return namedParameterJdbcTemplate.batchUpdate(Account.DELETE_BY_ID, batchArgs.toArray(new SqlParameterSource[0]));
     }
 }

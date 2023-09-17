@@ -17,7 +17,5 @@ CREATE TABLE transaction (
     account_id INT,
     action ENUM('DEPOSIT', 'WITHDRAW') NOT NULL,
     amount INT NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (account_id)
-        REFERENCES account (id)
+    PRIMARY KEY (id)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8;
