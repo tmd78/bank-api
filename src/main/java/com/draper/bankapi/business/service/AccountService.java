@@ -13,15 +13,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
+    private final Lock lock;
 
     public AccountService(AccountRepository accountRepository, TransactionRepository transactionRepository) {
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
+        this.lock = new ReentrantLock();
     }
 
     /**
@@ -58,12 +62,17 @@ public class AccountService {
      * @return the result of the transaction
      */
     public UpdateAccountBalanceResponse depositIntoAccount(int accountId, int amount) {
-        Account account = accountRepository.readAccount(accountId);
+        int balance;
 
-        int oldBalance = account.getBalance();
-        int newBalance = oldBalance + amount;
-
-        accountRepository.updateAccountBalance(accountId, newBalance);
+        try {
+            lock.lock();
+            Account account = accountRepository.readAccount(accountId);
+            balance = account.getBalance();
+            balance = balance + amount;
+            accountRepository.updateAccountBalance(accountId, balance);
+        } finally {
+            lock.unlock();
+        }
 
         Transaction transaction = transactionRepository.createTransaction(
                 accountId,
@@ -73,7 +82,7 @@ public class AccountService {
 
         UpdateAccountBalanceResponse updateAccountBalanceResponse = new UpdateAccountBalanceResponse();
         updateAccountBalanceResponse.setAccountId(accountId);
-        updateAccountBalanceResponse.setBalance(newBalance);
+        updateAccountBalanceResponse.setBalance(balance);
         updateAccountBalanceResponse.setTransactionId(transaction.getId());
 
         return updateAccountBalanceResponse;
@@ -87,17 +96,21 @@ public class AccountService {
      * @return the result of the transaction
      */
     public UpdateAccountBalanceResponse withdrawFromAccount(int accountId, int amount) {
-        Account account = accountRepository.readAccount(accountId);
+        int balance;
 
-        int oldBalance = account.getBalance();
-        int newBalance = oldBalance - amount;
-
-        if (newBalance < 0) {
-            String message = String.format("balance ($%d) is too low for requested withdraw amount", oldBalance);
-            throw new BankApiConflictException(message);
+        try {
+            lock.lock();
+            Account account = accountRepository.readAccount(accountId);
+            balance = account.getBalance();
+            balance = balance - amount;
+            if (balance < 0) {
+                String message = String.format("balance ($%d) is too low for requested withdraw amount", balance);
+                throw new BankApiConflictException(message);
+            }
+            accountRepository.updateAccountBalance(accountId, balance);
+        } finally {
+            lock.unlock();
         }
-
-        accountRepository.updateAccountBalance(accountId, newBalance);
 
         Transaction transaction = transactionRepository.createTransaction(
                 accountId,
@@ -107,7 +120,7 @@ public class AccountService {
 
         UpdateAccountBalanceResponse updateAccountBalanceResponse = new UpdateAccountBalanceResponse();
         updateAccountBalanceResponse.setAccountId(accountId);
-        updateAccountBalanceResponse.setBalance(newBalance);
+        updateAccountBalanceResponse.setBalance(balance);
         updateAccountBalanceResponse.setTransactionId(transaction.getId());
 
         return updateAccountBalanceResponse;
@@ -120,7 +133,15 @@ public class AccountService {
      * @return the number of accounts deleted
      */
     public long deleteAccounts(List<Integer> accountIds) {
-        int[] results = accountRepository.deleteAccounts(accountIds);
+        int[] results;
+
+        try {
+            lock.lock();
+            results = accountRepository.deleteAccounts(accountIds);
+        } finally {
+            lock.unlock();
+        }
+
         return Arrays.stream(results).filter(x -> x > 0).count();
     }
 }
