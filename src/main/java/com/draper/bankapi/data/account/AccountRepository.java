@@ -30,6 +30,14 @@ public interface AccountRepository {
     int updateAccountBalance(int id, int newBalance);
 
     /**
+     * Delete the specified account.
+     *
+     * @param id the ID of the account to delete
+     * @return the number of accounts deleted
+     */
+    int deleteAccount(int id);
+
+    /**
      * Delete the specified accounts.
      *
      * @param ids the IDs of the accounts to delete

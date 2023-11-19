@@ -10,6 +10,7 @@ import com.draper.bankapi.controller.account.request.UpdateAccountBalanceRequest
 import com.draper.bankapi.controller.account.response.ReadAccountResponse;
 import com.draper.bankapi.controller.account.response.UpdateAccountBalanceResponse;
 import com.draper.bankapi.data.account.Account;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -56,5 +57,11 @@ public class AccountController {
         }
 
         return updateAccountBalanceResponse;
+    }
+
+    @DeleteMapping(path = "/{accountId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAccount(@PathVariable int accountId) {
+        accountService.deleteAccount(accountId);
     }
 }

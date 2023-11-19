@@ -66,6 +66,14 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
+    public int deleteAccount(int id) {
+        MapSqlParameterSource queryArguments = new MapSqlParameterSource();
+        queryArguments.addValue(Account.COLUMN_ID, id);
+
+        return namedParameterJdbcTemplate.update(Account.DELETE_BY_ID, queryArguments);
+    }
+
+    @Override
     public int[] deleteAccounts(List<Integer> ids) {
         List<SqlParameterSource> batchArgs = new ArrayList<>();
 

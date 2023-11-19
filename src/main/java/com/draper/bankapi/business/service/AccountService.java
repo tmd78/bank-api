@@ -127,6 +127,21 @@ public class AccountService {
     }
 
     /**
+     * Delete the specified account.
+     *
+     * @param accountId the ID of the account to delete
+     */
+    public void deleteAccount(int accountId) {
+        try {
+            lock.lock();
+            accountRepository.readAccount(accountId);
+            accountRepository.deleteAccount(accountId);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
      * Delete the specified accounts.
      *
      * @param accountIds the IDs of the accounts to delete
