@@ -1,7 +1,5 @@
 package com.draper.bankapi.data.account;
 
-import java.util.List;
-
 public interface AccountRepository {
     /**
      * Create a record in the {@code account} table.
@@ -36,12 +34,4 @@ public interface AccountRepository {
      * @return the number of accounts deleted
      */
     int deleteAccount(int id);
-
-    /**
-     * Delete the specified accounts.
-     *
-     * @param ids the IDs of the accounts to delete
-     * @return an array containing the numbers of rows affected by each update in the batch
-     */
-    int[] deleteAccounts(List<Integer> ids);
 }

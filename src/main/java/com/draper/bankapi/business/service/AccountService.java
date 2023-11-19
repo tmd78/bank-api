@@ -12,8 +12,6 @@ import com.draper.bankapi.data.transaction.Transaction;
 import com.draper.bankapi.data.transaction.TransactionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -140,25 +138,6 @@ public class AccountService {
         } finally {
             lock.unlock();
         }
-    }
-
-    /**
-     * Delete the specified accounts.
-     *
-     * @param accountIds the IDs of the accounts to delete
-     * @return the number of accounts deleted
-     */
-    public long deleteAccounts(List<Integer> accountIds) {
-        int[] results;
-
-        try {
-            lock.lock();
-            results = accountRepository.deleteAccounts(accountIds);
-        } finally {
-            lock.unlock();
-        }
-
-        return Arrays.stream(results).filter(x -> x > 0).count();
     }
 
     /**

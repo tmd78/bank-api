@@ -6,7 +6,6 @@ public abstract class Constants {
         throw new Exception(message);
     }
 
-    public static final String JMS_LISTENER_DESTINATION = "delete.accounts";
     public static final String MSG_MISSING_JSON_VALUE = "%s must be provided";
     public static final String MSG_DO_NOT_INSTANTIATE = "%s should not be instantiated";
 }
