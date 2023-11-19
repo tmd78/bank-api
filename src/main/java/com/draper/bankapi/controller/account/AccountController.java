@@ -7,7 +7,7 @@ import com.draper.bankapi.common.TransactionType;
 import com.draper.bankapi.common.BankApiBadRequestException;
 import com.draper.bankapi.controller.account.request.CreateAccountRequest;
 import com.draper.bankapi.controller.account.request.UpdateAccountBalanceRequest;
-import com.draper.bankapi.controller.account.response.ReadAccountResponse;
+import com.draper.bankapi.controller.account.response.GetAccountResponse;
 import com.draper.bankapi.controller.account.response.UpdateAccountBalanceResponse;
 import com.draper.bankapi.data.account.Account;
 import org.springframework.http.HttpStatus;
@@ -30,8 +30,8 @@ public class AccountController {
     }
 
     @GetMapping(path = "/{accountId}")
-    public ReadAccountResponse readAccount(@PathVariable int accountId) {
-        return accountService.readAccount(accountId);
+    public GetAccountResponse getAccount(@PathVariable int accountId) {
+        return accountService.getAccount(accountId);
     }
 
     @PutMapping(path = "/{accountId}")

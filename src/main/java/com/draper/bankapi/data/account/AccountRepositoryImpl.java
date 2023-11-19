@@ -1,6 +1,5 @@
 package com.draper.bankapi.data.account;
 
-import com.draper.bankapi.common.BankApiNotFoundException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -50,7 +49,7 @@ public class AccountRepositoryImpl implements AccountRepository {
                     new AccountRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {
-            throw new BankApiNotFoundException(String.format("could not find account with ID %d", id));
+            account = null;
         }
 
         return account;

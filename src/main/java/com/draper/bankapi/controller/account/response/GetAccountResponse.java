@@ -3,7 +3,7 @@ package com.draper.bankapi.controller.account.response;
 /**
  * Response to client's request for an account's information.
  */
-public class ReadAccountResponse {
+public class GetAccountResponse {
     private int id;
     private int balance;
 

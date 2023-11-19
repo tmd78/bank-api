@@ -1,9 +1,10 @@
 package com.draper.bankapi.business.service;
 
 import com.draper.bankapi.common.BankApiConflictException;
+import com.draper.bankapi.common.BankApiNotFoundException;
 import com.draper.bankapi.common.TransactionType;
 import com.draper.bankapi.controller.account.request.CreateAccountRequest;
-import com.draper.bankapi.controller.account.response.ReadAccountResponse;
+import com.draper.bankapi.controller.account.response.GetAccountResponse;
 import com.draper.bankapi.controller.account.response.UpdateAccountBalanceResponse;
 import com.draper.bankapi.data.account.AccountRepository;
 import com.draper.bankapi.data.account.Account;
@@ -39,15 +40,15 @@ public class AccountService {
     }
 
     /**
-     * Read the account with the specified ID.
+     * Retrieve the specified account.
      *
-     * @param accountId the ID of the account to read
-     * @return the requested account
+     * @param accountId the ID of the account to retrieve
+     * @return the specified account
      */
-    public ReadAccountResponse readAccount(int accountId) {
-        Account account = accountRepository.readAccount(accountId);
+    public GetAccountResponse getAccount(int accountId) {
+        Account account = readAccount(accountId);
 
-        ReadAccountResponse response = new ReadAccountResponse();
+        GetAccountResponse response = new GetAccountResponse();
         response.setId(account.getId());
         response.setBalance(account.getBalance());
 
@@ -66,7 +67,7 @@ public class AccountService {
 
         try {
             lock.lock();
-            Account account = accountRepository.readAccount(accountId);
+            Account account = readAccount(accountId);
             balance = account.getBalance();
             balance = balance + amount;
             accountRepository.updateAccountBalance(accountId, balance);
@@ -100,7 +101,7 @@ public class AccountService {
 
         try {
             lock.lock();
-            Account account = accountRepository.readAccount(accountId);
+            Account account = readAccount(accountId);
             balance = account.getBalance();
             balance = balance - amount;
             if (balance < 0) {
@@ -134,7 +135,7 @@ public class AccountService {
     public void deleteAccount(int accountId) {
         try {
             lock.lock();
-            accountRepository.readAccount(accountId);
+            readAccount(accountId);
             accountRepository.deleteAccount(accountId);
         } finally {
             lock.unlock();
@@ -158,5 +159,19 @@ public class AccountService {
         }
 
         return Arrays.stream(results).filter(x -> x > 0).count();
+    }
+
+    /**
+     * Read the specified account.
+     *
+     * @param accountId the ID of the account to read
+     * @return the specified account
+     */
+    private Account readAccount(int accountId) {
+        Account account = accountRepository.readAccount(accountId);
+        if (account == null) {
+            throw new BankApiNotFoundException(String.format("could not find account with ID %d", accountId));
+        }
+        return account;
     }
 }

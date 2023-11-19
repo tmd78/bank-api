@@ -13,10 +13,10 @@ public interface AccountRepository {
     Account createAccount(int balance, String passcode);
 
     /**
-     * Read a record from the {@code account} table by ID.
+     * Read the specified account.
      *
-     * @param id the ID of the record to read
-     * @return the requested account
+     * @param id the ID of the account to read
+     * @return the specified account or {@code null} if not found
      */
     Account readAccount(int id);
 
