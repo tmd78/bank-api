@@ -28,7 +28,7 @@ spring.datasource.password=your-mysql-password
 
 You should be able to run the application successfully now.
 
-### Interact With the Application Using Postman
+## Interact With the Application Using Postman
 
 [Import](https://learning.postman.com/docs/getting-started/importing-and-exporting/importing-data/) the collection and environment (found in this [folder](https://github.com/tmd78/bank-api/tree/main/postman)) into your Postman application.
 
