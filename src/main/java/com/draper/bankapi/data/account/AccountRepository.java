@@ -1,7 +1,5 @@
 package com.draper.bankapi.data.account;
 
-import java.util.List;
-
 public interface AccountRepository {
     /**
      * Create a record in the {@code account} table.
@@ -13,10 +11,10 @@ public interface AccountRepository {
     Account createAccount(int balance, String passcode);
 
     /**
-     * Read a record from the {@code account} table by ID.
+     * Read the specified account.
      *
-     * @param id the ID of the record to read
-     * @return the requested account
+     * @param id the ID of the account to read
+     * @return the specified account or {@code null} if not found
      */
     Account readAccount(int id);
 
@@ -30,10 +28,10 @@ public interface AccountRepository {
     int updateAccountBalance(int id, int newBalance);
 
     /**
-     * Delete the specified accounts.
+     * Delete the specified account.
      *
-     * @param ids the IDs of the accounts to delete
-     * @return an array containing the numbers of rows affected by each update in the batch
+     * @param id the ID of the account to delete
+     * @return the number of accounts deleted
      */
-    int[] deleteAccounts(List<Integer> ids);
+    int deleteAccount(int id);
 }

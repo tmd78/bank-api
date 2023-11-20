@@ -89,7 +89,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"action\": \"deposit\",\n    \"amount\": 500,\n    \"passcode\": \"0000\"\n}",
+					"raw": "{\n    \"action\": \"deposit\",\n    \"amount\": 100,\n    \"passcode\": \"0000\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -153,62 +153,34 @@
 			"response": []
 		},
 		{
-			"name": "Produce message",
+			"name": "Delete account",
 			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
+				"method": "DELETE",
 				"header": [],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "body",
-							"value": "{\"accountIds\":[2,3,4,5]}",
-							"type": "text"
-						},
-						{
-							"key": "_type",
-							"value": "com.draper.bankapi.message.DeleteAccountsRequest",
-							"type": "text"
+					"mode": "raw",
+					"raw": "{\n    \"action\": \"withdraw\",\n    \"amount\": 5,\n    \"passcode\": \"0000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
 						}
-					]
+					}
 				},
 				"url": {
-					"raw": "http://localhost:8161/api/message/:queue-name?type=queue",
+					"raw": "http://{{domain}}/api/accounts/:account_id",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{domain}}"
 					],
-					"port": "8161",
 					"path": [
 						"api",
-						"message",
-						":queue-name"
-					],
-					"query": [
-						{
-							"key": "type",
-							"value": "queue"
-						}
+						"accounts",
+						":account_id"
 					],
 					"variable": [
 						{
-							"key": "queue-name",
-							"value": "delete.accounts"
+							"key": "account_id",
+							"value": "{{account_id}}"
 						}
 					]
 				}
