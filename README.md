@@ -2,7 +2,7 @@
 
 I created this project to investigate concurrency in a Spring controller. I wrote an article with my findings that can be found [here](https://medium.com/@toby.draper/concurrency-in-java-2fb38fc8345e).
 
-## Running the Application
+## Run the Application
 
 There's some simple setup to perform if you'd like to run the application yourself.
 
